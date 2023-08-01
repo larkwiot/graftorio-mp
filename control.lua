@@ -4,26 +4,31 @@ function write_tick(json)
 end
 
 --@type LuaFlowStatistics
-function get_prod_cons(production_statistics)
+function get_prod_cons(production_statistics, prototypes)
     local production = {}
     local consumption = {}
 
-    for item, amount in pairs(production_statistics.input_counts) do
-        production[item] = amount
+    for name, prototype in pairs(prototypes) do
+        production[name] = production_statistics.get_input_count(name)
+        consumption[name] = production_statistics.get_output_count(name)
     end
 
-    for item, amount in pairs(production_statistics.output_counts) do
-        consumption[item] = amount
-    end
+    --for item, amount in pairs(production_statistics.input_counts) do
+    --    production[item] = amount
+    --end
+    --
+    --for item, amount in pairs(production_statistics.output_counts) do
+    --    consumption[item] = amount
+    --end
 
     return production, consumption
 end
 
 --@type LuaForce
 function get_force_data(force)
-    local item_production, item_consumption = get_prod_cons(force.item_production_statistics)
+    local item_production, item_consumption = get_prod_cons(force.item_production_statistics, game.item_prototypes)
 
-    local fluid_production, fluid_consumption = get_prod_cons(force.fluid_production_statistics)
+    local fluid_production, fluid_consumption = get_prod_cons(force.fluid_production_statistics, game.fluid_prototypes)
 
     return {
         ["item_production"] = item_production,
