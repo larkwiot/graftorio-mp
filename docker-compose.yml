@@ -1,0 +1,44 @@
+version: "2.0"
+
+services:
+  factorio:
+    container_name: factorio
+    image: factoriotools/factorio:latest
+    ports:
+      - "34197:34197/udp"
+      - "27015:27015"
+    volumes:
+      - /opt/docker/factorio:/factorio
+    restart: unless-stopped
+
+  prometheus:
+    container_name: prometheus
+    image: bitnami/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - /opt/docker/prometheus/conf:/opt/bitnami/prometheus/conf
+      - /opt/docker/prometheus/data:/opt/bitnami/prometheus/data
+    restart: unless-stopped
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - /opt/docker/grafana:/var/lib/grafana
+    environment:
+      GF_INSTANCE_NAME: <your server name>
+      GF_FEATURE_TOGGLES_ENABLE: newNavigation
+    restart: unless-stopped
+
+  graftorio-mp:
+    container_name: graftorio-mp
+    image: graftorio:latest
+    ports:
+      - "9102:9102" # or whatever you set it to in the environment variable below
+    volumes:
+      - /opt/factorio/script-output:/factorio/script-output
+    environment:
+      GFMP_PORT: 9102
