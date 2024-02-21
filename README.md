@@ -2,7 +2,7 @@
 
 Inspired by the original Graftorio and Gratorio2 fork, this mod and docker container provide exporting of production statistics to Grafana via Prometheus.
 
-At this time, this project is a **WORK IN PROGRESS**, so please bear with any issues you find and report them or submit a PR.
+At this time, this project is a **WORK IN PROGRESS**, so please bear with any issues you find and report them or submit a PR. That being said, I am fairly satisfied with its capabilities.
 
 This mod is designed and intended for running on a Factorio server.
 
